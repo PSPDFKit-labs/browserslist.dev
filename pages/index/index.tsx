@@ -4,12 +4,14 @@ import styles from "./main.module.scss";
 import { getIconName, getName, getVersion } from "@constants/browserMap";
 import { useRouter } from "next/router";
 
+const usage = browserslist.usage.global;
+
 export default function Home() {
   const query = useMemo(() => {
     if (typeof window !== "undefined") {
       const query = new URLSearchParams(window.location.search);
       if (query.has("q")) {
-        return decodeURI(query.get("q"));
+        return atob(query.get("q"));
       }
     }
 
@@ -29,7 +31,7 @@ export default function Home() {
       router.push({
         pathname: "/",
         query: {
-          q: encodeURI(config),
+          q: btoa(config),
         },
       });
     } catch (e) {
@@ -60,7 +62,7 @@ export default function Home() {
   }, [supportedBrowsers]);
 
   return (
-    <div className="container">
+    <div className={styles.container}>
       <header className={styles.header}>
         <div className={styles.inputWrapper}>
           <input
@@ -82,36 +84,46 @@ export default function Home() {
         <section>
           <h3>Desktop</h3>
           {groupedBrowsers.desktop.map((item) => (
-            <div className={styles.list} key={item}>
-              <div
-                className={styles.browserIcon}
-                style={{
-                  backgroundImage: `url(/browser-logo/${getIconName(
-                    item
-                  )}.svg)`,
-                }}
-              />
-              {getName(item)} {getVersion(item)}
+            <div key={item} className={styles.list}>
+              <div className={styles.listLeft}>
+                <div
+                  className={styles.browserIcon}
+                  style={{
+                    backgroundImage: `url(/browser-logo/${getIconName(
+                      item
+                    )}.svg)`,
+                  }}
+                />
+                {getName(item)} {getVersion(item)}
+              </div>
+              <span>{usage[item].toFixed(3)} %</span>
             </div>
           ))}
         </section>
         <section>
           <h3>Mobile</h3>
           {groupedBrowsers.mobile.map((item) => (
-            <div className={styles.list} key={item}>
-              <div
-                className={styles.browserIcon}
-                style={{
-                  backgroundImage: `url(/browser-logo/${getIconName(
-                    item
-                  )}.svg)`,
-                }}
-              />
-              {getName(item)} {getVersion(item)}
+            <div key={item} className={styles.list}>
+              <div className={styles.listLeft}>
+                <div
+                  className={styles.browserIcon}
+                  style={{
+                    backgroundImage: `url(/browser-logo/${getIconName(
+                      item
+                    )}.svg)`,
+                  }}
+                />
+                {getName(item)} {getVersion(item)}
+              </div>
+              <span>{usage[item].toFixed(3)} %</span>
             </div>
           ))}
         </section>
       </main>
+
+      <footer className={styles.footer}>
+        Made by &nbsp; <a href="https://pspdfkit.com">PSPDFKit</a>
+      </footer>
     </div>
   );
 }
