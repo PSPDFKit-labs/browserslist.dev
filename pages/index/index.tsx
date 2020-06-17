@@ -2,6 +2,7 @@ import browserslist from "browserslist";
 import React, { useEffect, useMemo, useState } from "react";
 import styles from "./main.module.scss";
 import { getIconName, getName, getVersion } from "@constants/browserMap";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const query = useMemo(() => {
@@ -18,12 +19,19 @@ export default function Home() {
   const [config, setConfig] = useState<string>(query);
   const [supportedBrowsers, setSupportedBrowsers] = useState<string[]>([]);
   const [error, setError] = useState<string>("");
+  const router = useRouter();
 
   useEffect(() => {
     try {
       const browsers = browserslist(config);
       setSupportedBrowsers(browsers);
       setError("");
+      router.push({
+        pathname: "/",
+        query: {
+          q: encodeURI(config),
+        },
+      });
     } catch (e) {
       setError(e.message);
     }
