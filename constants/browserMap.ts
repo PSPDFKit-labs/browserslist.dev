@@ -48,11 +48,9 @@ export function getVersion(browser: string) {
 }
 
 export function getName(browser: string) {
-  const name = browser.split(" ")?.[0];
-  return map.has(name) ? map.get(name).name : name;
+  return map.has(browser) ? map.get(browser).name : browser;
 }
 
 export function getIconName(browser: string) {
-  const name = browser.split(" ")?.[0];
-  return map.has(name) ? map.get(name).iconName : name;
+  return map.has(browser) ? map.get(browser).iconName : browser;
 }

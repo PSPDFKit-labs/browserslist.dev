@@ -1,9 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 * {
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Inter', sans-serif;
   box-sizing: border-box;
+}
+
+html, body {
+  background-color: #061828;
+}
+
+a {
+  color: #8F9BF4;
+  text-decoration-line: underline;
+  white-space: pre;
+  transition: opacity 200ms;
+  cursor: pointer;
+}
+
+a:hover {
+  opacity: 0.7;
 }

@@ -1,0 +1,25 @@
+.bar {
+  position: relative;
+}
+
+.barLeft {
+  width: 20.5px;
+  height: 520px;
+  background-color: #190D94;
+  transform: skewY(30deg);
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: 17px;
+}
+
+.barRight {
+  width: 20.5px;
+  height: 520px;
+  background-color: #0A0167;
+  right: 0;
+  transform: skewY(-30deg);
+  position: absolute;
+  top: 0;
+  margin-top: 17px;
+}
