@@ -45,7 +45,7 @@ export default function Home({ savedData }) {
   }, [savedData]);
 
   const [config, setConfig] = useState<string>(
-    preSavedData?.query || getConfigFromQuery()
+    preSavedData?.config || getConfigFromQuery()
   );
   const [supportedBrowsers, setSupportedBrowsers] = useState<string[]>(
     preSavedData?.supportedBrowsers || []
