@@ -37,7 +37,7 @@ const map = new Map(
       iconName: "ie",
     },
     ie_mob: {
-      name: "Internet Explorer Mobile",
+      name: "IE Mobile",
       iconName: "ie",
     },
   })

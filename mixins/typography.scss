@@ -1,23 +1,32 @@
 @import "./breakpoints";
 
 $heading-font-sizes: (
-  $min-small: 26px,
-  $min-medium: 32px,
-  $min-large: 38px,
+  $xxsmall: 26px,
+  $xsmall: 26px,
+  $small: 26px,
+  $medium: 32px,
+  $large: 38px,
 );
 $large-font-sizes: (
-  $min-small: 16px,
-  $min-medium: 18px,
-  $min-large: 20px,
+  $xxsmall: 16px,
+  $xsmall: 16px,
+  $small: 16px,
+  $medium: 18px,
+  $large: 20px,
 );
 $medium-font-sizes: (
-  $min-small: 14px,
-  $min-medium: 16px,
-  $min-large: 18px,
+  $xxsmall: 14px,
+  $xsmall: 14px,
+  $small: 14px,
+  $medium: 16px,
+  $large: 18px,
 );
 $small-font-sizes: (
-  $min-medium: 14px,
-  $min-large: 16px,
+  $xxsmall: 14px,
+  $xsmall: 14px,
+  $small: 14px,
+  $medium: 14px,
+  $large: 16px,
 );
 
 @mixin font-size($fs-map) {

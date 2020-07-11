@@ -1,4 +1,5 @@
 @import "../../mixins/typography";
+@import "../../mixins/media-queries";
 
 .wrapper {
   min-height: 100vh;
@@ -8,11 +9,37 @@
 
 .container {
   display: flex;
-  max-width: 1224px;
   width: 100%;
   margin: 0 auto;
   flex-direction: column;
   flex: 1;
+
+  @include respond-to(large) {
+    max-width: 1224px;
+  }
+  @include respond-to(medium) {
+    max-width: 940px;
+  }
+  @include respond-to(below-medium) {
+    width: 100%;
+  }
+}
+
+.containerWrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+
+  @include respond-to(small) {
+    padding: 0 58px;
+  }
+  @include respond-to(xsmall) {
+    padding: 0 30px;
+  }
+  @include respond-to(xxsmall) {
+    padding: 0 10px;
+  }
 }
 
 .header {
@@ -20,6 +47,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @include respond-to(xsmall) {
+    height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+  }
+  @include respond-to(xxsmall) {
+    height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+  }
 }
 
 .title {
@@ -27,6 +69,13 @@
   display: flex;
   align-items: center;
   color: #ffffff;
+
+  @include respond-to(xsmall) {
+    margin: 20px 0;
+  }
+  @include respond-to(xxsmall) {
+    margin: 20px 0;
+  }
 }
 
 .description {
@@ -39,6 +88,13 @@
   background-color: #fff;
   opacity: 0.2;
   margin-bottom: 16px;
+
+  @include respond-to(xsmall) {
+    display: none;
+  }
+  @include respond-to(xxsmall) {
+    display: none;
+  }
 }
 
 .search {
@@ -53,12 +109,27 @@
 }
 
 .searchSticky {
-  background-color: #03111E;
+  background-color: #03111e;
   border-bottom: 2px solid #384653;
 }
 
 .searchWrapper {
   position: relative;
+  display: flex;
+
+  @include respond-to(small) {
+    flex: 1;
+    margin-right: 23px;
+  }
+  @include respond-to(xsmall) {
+    flex: 1;
+    margin-right: 23px;
+  }
+  @include respond-to(xxsmall) {
+    flex: 1;
+    margin-right: 23px;
+  }
+
   .searchIcon {
     position: absolute;
     margin-top: 13px;
@@ -76,7 +147,15 @@
     @include largeText();
     color: white;
     padding: 0 46px;
-    width: 912px;
+    display: flex;
+    flex: 1;
+
+    @include respond-to(large) {
+      width: 912px;
+    }
+    @include respond-to(medium) {
+      width: 700px;
+    }
 
     &:focus {
       border-color: #5e5ceb;
@@ -99,6 +178,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @include respond-to(below-medium) {
+    & > span {
+      display: none;
+    }
+  }
 }
 
 .main {
@@ -107,6 +192,10 @@
   flex-direction: row;
   justify-content: space-between;
   margin-top: 79px;
+
+  @include respond-to(below-medium) {
+    margin-top: 35px;
+  }
 }
 
 .results {
@@ -115,10 +204,45 @@
   justify-content: space-between;
   width: 912px;
 
+  @include respond-to(large) {
+    width: 912px;
+  }
+  @include respond-to(medium) {
+    width: 700px;
+  }
+  @include respond-to(small) {
+    width: 100%;
+  }
+  @include respond-to(xsmall) {
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  @include respond-to(xxsmall) {
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+  }
+
   & > div {
     display: flex;
     flex-direction: column;
-    width: 392px;
+
+    @include respond-to(large) {
+      width: 390px;
+    }
+    @include respond-to(medium) {
+      width: 47%;
+    }
+    @include respond-to(small) {
+      width: 47%;
+    }
+    @include respond-to(xsmall) {
+      width: 100%;
+    }
+    @include respond-to(xxsmall) {
+      width: 100%;
+    }
   }
 
   h3 {
@@ -133,19 +257,25 @@
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  border-top:2px solid rgba(255, 255, 255, 0.2);
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
   color: white;
+  padding: 0 16px;
 
   &:last-of-type {
-    border-bottom:2px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+  &:hover {
+    background-color: #1f2f3d;
   }
 }
 
 .listLeft {
   display: flex;
-  padding-top: 12px;
+  padding: 12px 0;
   @include smallText();
   text-transform: capitalize;
+  line-height: 23px;
 }
 
 .listRight {
@@ -179,6 +309,16 @@
 .coverageSidebar {
   margin-bottom: 300px;
   position: relative;
+
+  @include respond-to(small) {
+    display: none;
+  }
+  @include respond-to(xsmall) {
+    display: none;
+  }
+  @include respond-to(xxsmall) {
+    display: none;
+  }
 }
 
 .coverageCount {
@@ -207,8 +347,6 @@
   position: relative;
 }
 
-
-
 .dottedFloor {
   position: absolute;
   transform: translateY(-50%) translateX(-36%);
@@ -223,6 +361,27 @@
   background-color: #03111e;
   border-top: 2px solid rgba(255, 255, 255, 0.2);
   align-items: center;
+
+  @include respond-to(below-medium) {
+    height: auto;
+  }
+}
+
+.footerContainer {
+  @extend .container;
+  flex-direction: row;
+  justify-content: space-between;
+
+  @include respond-to(small) {
+    padding: 58px;
+  }
+  @include respond-to(xsmall) {
+    flex-direction: column;
+    padding: 30px;
+  }
+  @include respond-to(xxsmall) {
+    padding: 10px;
+  }
 }
 
 .madeBy {
@@ -234,4 +393,71 @@
   align-items: center;
   color: white;
   @include smallTextStrong();
+
+  @include respond-to(xsmall) {
+    margin-bottom: 45px;
+  }
+
+  @include respond-to(xxsmall) {
+    margin-bottom: 45px;
+  }
+}
+
+.dependencies {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  @include smallTextStrong();
+  line-height: 20px;
+  color: #717885;
+
+  & > div {
+    margin-left: 100px;
+  }
+
+  @include respond-to(below-medium) {
+    flex-direction: column;
+    justify-content: flex-start;
+
+    & > div {
+      margin-left: 0;
+      flex-direction: row;
+      margin-bottom: 10px;
+    }
+
+    & > div > div {
+      display: inline-block;
+    }
+  }
+}
+
+.horProgressWrapper {
+  @extend .container;
+  height: 24px;
+  width: 100%;
+  background-color: #190d94;
+  flex: auto;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 8px;
+  display: none;
+  position: relative;
+
+  @include respond-to(below-medium) {
+    display: block;
+  }
+
+  & > div {
+    transition: all 200ms;
+    height: 100%;
+    background-color: #4636e3;
+  }
+
+  & > span {
+    position: absolute;
+    color: #ffffff;
+    @include smallText();
+    top: 0;
+    padding: 4px 8px;
+  }
 }
