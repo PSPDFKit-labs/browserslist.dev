@@ -29,7 +29,6 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  overflow: hidden;
 
   @include respond-to(small) {
     padding: 0 58px;
@@ -111,6 +110,13 @@
 .searchSticky {
   background-color: #03111e;
   border-bottom: 2px solid #384653;
+}
+
+.searchContainer {
+  @extend .container;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .searchWrapper {
@@ -307,7 +313,7 @@
 }
 
 .coverageSidebar {
-  margin-bottom: 300px;
+  margin-bottom: 250px;
   position: relative;
 
   @include respond-to(small) {
@@ -361,6 +367,7 @@
   background-color: #03111e;
   border-top: 2px solid rgba(255, 255, 255, 0.2);
   align-items: center;
+  margin-top: 50px;
 
   @include respond-to(below-medium) {
     height: auto;

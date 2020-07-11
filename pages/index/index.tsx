@@ -2,7 +2,7 @@ import browserslist from "browserslist";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./main.module.scss";
 import { getIconName, getName, getVersion } from "@constants/browserMap";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import Search from "../../assets/svgs/search.svg";
 import Info from "../../assets/svgs/info.svg";
 import PSPDFKit from "../../assets/svgs/pspdfkit.svg";
@@ -152,20 +152,20 @@ export default function Home({ savedData }) {
 
             <span className={styles.description}>
               A page to display compatible browsers from{" "}
-              <a href="">browserslist string</a>.
+              <a
+                href="https://github.com/browserslist/browserslist"
+                target="_blank"
+              >
+                browserslist string
+              </a>
+              .
             </span>
           </header>
           <hr className={styles.hr} />
         </div>
 
         <div className={`${styles.search} ${sticky && styles.searchSticky}`}>
-          <div
-            className={styles.container}
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
+          <div className={styles.searchContainer}>
             <div className={styles.searchWrapper}>
               <Search className={styles.searchIcon} />
               <input
@@ -177,13 +177,17 @@ export default function Home({ savedData }) {
               {error && <Error className={styles.errorIcon} />}
             </div>
 
-            <div className={styles.queryComposition}>
-              <Info />
-              <span>
-                &nbsp;&nbsp;
-                <a>Query Composition</a> <Arrow />
-              </span>
-            </div>
+            <a
+              href="https://github.com/browserslist/browserslist#query-composition"
+              target="_blank"
+            >
+              <div className={styles.queryComposition}>
+                <Info />
+                <span>
+                  &nbsp;&nbsp; Query Composition <Arrow />
+                </span>
+              </div>
+            </a>
           </div>
         </div>
 
@@ -296,17 +300,29 @@ export default function Home({ savedData }) {
           <div className={styles.dependencies}>
             <div>
               <div>Code on</div>
-              <a>Github</a>
+              <a
+                href="https://github.com/PSPDFKit-labs/browserslist.dev"
+                target="_blank"
+              >
+                Github
+              </a>
             </div>
 
             <div>
               <div>Functionality provided by</div>
-              <a>browserslist {browserslistVersion}</a>
+              <a
+                href="https://github.com/browserslist/browserslist"
+                target="_blank"
+              >
+                browserslist {browserslistVersion}
+              </a>
             </div>
 
             <div>
               <div>Data provided by</div>
-              <a>caniuse-db {canIUse}</a>
+              <a href="https://github.com/ben-eb/caniuse-lite" target="_blank">
+                caniuse-db {canIUse}
+              </a>
             </div>
           </div>
         </div>
