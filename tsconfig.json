@@ -19,7 +19,9 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@constants/*": ["./constants/*"]
+      "@constants/*": ["./constants/*"],
+      "@assets/*": ["./assets/*"],
+      "@components/*": ["./components/*"]
     }
   },
   "exclude": [
