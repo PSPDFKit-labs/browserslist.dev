@@ -11,6 +11,10 @@
   top: 0;
   left: 0;
   margin-top: 17px;
+
+  &:not(:root:root) {
+    left: 1px;
+  }
 }
 
 .barRight {

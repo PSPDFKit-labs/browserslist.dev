@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Search from "@assets/svgs/search.svg";
 import Info from "@assets/svgs/info.svg";
 import PSPDFKit from "@assets/svgs/pspdfkit.svg";
-import Error from "@assets/svgs/Error.svg";
+import Error from "@assets/svgs/error.svg";
 import DottedFloor from "@assets/svgs/dotted-floor.svg";
 import Arrow from "@assets/svgs/arrow.svg";
 import { useSpring, animated } from "react-spring";
@@ -18,6 +18,7 @@ import fs from "fs";
 import globby from "globby";
 import path from "path";
 import Head from "next/head";
+import cn from "classnames";
 
 const usage = browserslist.usage.global;
 
@@ -61,6 +62,7 @@ export default function Home({ savedData }) {
     const observer = new IntersectionObserver((entry) => {
       setSticky(!entry[0].isIntersecting);
     });
+
     observer.observe(headerRef.current);
 
     return () => {
@@ -135,8 +137,12 @@ export default function Home({ savedData }) {
     },
   });
 
+  const searchClassName = cn(styles.search, {
+    [styles.searchSticky]: sticky,
+  });
+
   return (
-    <div className={styles.wrapper}>
+    <>
       <Head>
         <title>Browserslist</title>
         <meta
@@ -145,189 +151,205 @@ export default function Home({ savedData }) {
           key="title"
         />
       </Head>
-      <div className={styles.containerWrapper}>
-        <div className={styles.container} ref={headerRef}>
-          <header className={styles.header}>
-            <span className={styles.title}>browserslist</span>
+      <div className={styles.wrapper}>
+        <div className={styles.containerWrapper}>
+          <div className={styles.container} ref={headerRef}>
+            <header className={styles.header}>
+              <span className={styles.title}>browserslist</span>
 
-            <span className={styles.description}>
-              A page to display compatible browsers from{" "}
-              <a
-                href="https://github.com/browserslist/browserslist"
-                target="_blank"
-              >
-                browserslist string
-              </a>
-              .
-            </span>
-          </header>
-          <hr className={styles.hr} />
-        </div>
-
-        <div className={`${styles.search} ${sticky && styles.searchSticky}`}>
-          <div className={styles.searchContainer}>
-            <div className={styles.searchWrapper}>
-              <Search className={styles.searchIcon} />
-              <input
-                className={error && styles.error}
-                type="text"
-                value={config}
-                onChange={(event) => setConfig(event.target.value)}
-              />
-              {error && <Error className={styles.errorIcon} />}
-            </div>
-
-            <a
-              href="https://github.com/browserslist/browserslist#query-composition"
-              target="_blank"
-            >
-              <div className={styles.queryComposition}>
-                <Info />
-                <span>
-                  &nbsp;&nbsp; Query Composition <Arrow />
+              {preSavedData?.title ? (
+                <div
+                  className={styles.description}
+                  dangerouslySetInnerHTML={{ __html: preSavedData?.title }}
+                />
+              ) : (
+                <span className={styles.description}>
+                  A page to display compatible browsers from{" "}
+                  <a
+                    href="https://github.com/browserslist/browserslist"
+                    target="_blank"
+                  >
+                    browserslist string
+                  </a>
+                  .
                 </span>
+              )}
+            </header>
+            <div className={styles.hr} />
+          </div>
+
+          {!preSavedData && (
+            <div key="search" className={searchClassName}>
+              <div className={styles.searchContainer}>
+                <div className={styles.searchWrapper}>
+                  <Search className={styles.searchIcon} />
+                  <input
+                    className={error && styles.error}
+                    type="text"
+                    value={config}
+                    onChange={(event) => setConfig(event.target.value)}
+                  />
+                  {error && <Error className={styles.errorIcon} />}
+                </div>
+
+                <a
+                  href="https://github.com/browserslist/browserslist#query-composition"
+                  target="_blank"
+                  className={styles.queryComposition}
+                >
+                  <Info />
+                  <span>
+                    Query Composition <Arrow />
+                  </span>
+                </a>
               </div>
-            </a>
+            </div>
+          )}
+
+          <section key="progress" className={styles.progressContainer}>
+            <div className={styles.horProgressWrapper}>
+              <div
+                style={{
+                  width: animatedCoverage.coverage.interpolate(
+                    (x) => `${Math.trunc(x)}%`
+                  ),
+                }}
+              ></div>
+              <span>Overall Browser Coverage: {coverage}%</span>
+            </div>
+          </section>
+
+          <div className={styles.container}>
+            <main className={styles.main}>
+              <div className={styles.results}>
+                <div>
+                  <h3>Desktop</h3>
+                  {Object.keys(groupedBrowsers.desktop).map((key) => {
+                    const versions = groupedBrowsers.desktop[key];
+
+                    return (
+                      <div key={key} className={styles.list}>
+                        <div className={styles.listLeft}>
+                          <div
+                            className={styles.browserIcon}
+                            style={{
+                              backgroundImage: `url(/browser-logo/${getIconName(
+                                key
+                              )}.svg)`,
+                            }}
+                          />
+                          {getName(key)}
+                        </div>
+
+                        <div className={styles.listRight}>
+                          {versions.map((version) => (
+                            <div key={version} className={styles.version}>
+                              <span>{getVersion(version)}</span>
+                              <span className={styles.usage}>
+                                {usage[version].toFixed(3)}%
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div>
+                  <h3>Mobile</h3>
+                  {Object.keys(groupedBrowsers.mobile).map((key) => {
+                    const versions = groupedBrowsers.mobile[key];
+
+                    return (
+                      <div key={key} className={styles.list}>
+                        <div className={styles.listLeft}>
+                          <div
+                            className={styles.browserIcon}
+                            style={{
+                              backgroundImage: `url(/browser-logo/${getIconName(
+                                key
+                              )}.svg)`,
+                            }}
+                          />
+                          {getName(key)}
+                        </div>
+
+                        <div className={styles.listRight}>
+                          {versions.map((version) => (
+                            <div key={version} className={styles.version}>
+                              <span>{getVersion(version)}</span>
+                              <span className={styles.usage}>
+                                {usage[version].toFixed(3)}%
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className={styles.coverageSidebar}>
+                <div className={styles.coverageCount}>
+                  Overall browser coverage: <br />
+                  <span>
+                    <animated.span>
+                      {animatedCoverage.coverage.interpolate((x) =>
+                        Math.trunc(x)
+                      )}
+                    </animated.span>
+                    %
+                  </span>
+                </div>
+                <div className={styles.bar}>
+                  <CoverageBar value={animatedCoverage.coverage} />
+                </div>
+                <DottedFloor className={styles.dottedFloor} />
+              </div>
+            </main>
           </div>
         </div>
-
-        <div className={styles.horProgressWrapper}>
-          <animated.div
-            style={{
-              width: animatedCoverage.coverage.interpolate(
-                (x) => `${Math.trunc(x)}%`
-              ),
-            }}
-          ></animated.div>
-          <span>Overall Browser Coverage: {coverage}%</span>
-        </div>
-        <div className={styles.container}>
-          <main className={styles.main}>
-            <div className={styles.results}>
+        <footer className={styles.footer}>
+          <div className={styles.footerContainer}>
+            <div className={styles.madeBy}>
+              <PSPDFKit className={styles.logo} />
+              Made by&nbsp;<a href="">PSPDFKit</a>
+            </div>
+            <div className={styles.dependencies}>
               <div>
-                <h3>Desktop</h3>
-                {Object.keys(groupedBrowsers.desktop).map((key) => {
-                  const versions = groupedBrowsers.desktop[key];
-
-                  return (
-                    <div key={key} className={styles.list}>
-                      <div className={styles.listLeft}>
-                        <div
-                          className={styles.browserIcon}
-                          style={{
-                            backgroundImage: `url(/browser-logo/${getIconName(
-                              key
-                            )}.svg)`,
-                          }}
-                        />
-                        {getName(key)}
-                      </div>
-
-                      <div className={styles.listRight}>
-                        {versions.map((version) => (
-                          <div className={styles.version}>
-                            <span>{getVersion(version)}</span>
-                            <span className={styles.usage}>
-                              {usage[version].toFixed(3)}%
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })}
+                <div>Code on</div>
+                <a
+                  href="https://github.com/PSPDFKit-labs/browserslist.dev"
+                  target="_blank"
+                >
+                  Github
+                </a>
               </div>
+
               <div>
-                <h3>Mobile</h3>
-                {Object.keys(groupedBrowsers.mobile).map((key) => {
-                  const versions = groupedBrowsers.mobile[key];
+                <div>Functionality provided by</div>
+                <a
+                  href="https://github.com/browserslist/browserslist"
+                  target="_blank"
+                >
+                  browserslist {browserslistVersion}
+                </a>
+              </div>
 
-                  return (
-                    <div key={key} className={styles.list}>
-                      <div className={styles.listLeft}>
-                        <div
-                          className={styles.browserIcon}
-                          style={{
-                            backgroundImage: `url(/browser-logo/${getIconName(
-                              key
-                            )}.svg)`,
-                          }}
-                        />
-                        {getName(key)}
-                      </div>
-
-                      <div className={styles.listRight}>
-                        {versions.map((version) => (
-                          <div className={styles.version}>
-                            <span>{getVersion(version)}</span>
-                            <span className={styles.usage}>
-                              {usage[version].toFixed(3)}%
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })}
+              <div>
+                <div>Data provided by</div>
+                <a
+                  href="https://github.com/ben-eb/caniuse-lite"
+                  target="_blank"
+                >
+                  caniuse-db {canIUse}
+                </a>
               </div>
             </div>
-            <div className={styles.coverageSidebar}>
-              <div className={styles.coverageCount}>
-                Overall browser coverage: <br />
-                <span>
-                  <animated.span>
-                    {animatedCoverage.coverage.interpolate((x) =>
-                      Math.trunc(x)
-                    )}
-                  </animated.span>
-                  %
-                </span>
-              </div>
-              <div className={styles.bar}>
-                <CoverageBar value={animatedCoverage.coverage} />
-              </div>
-              <DottedFloor className={styles.dottedFloor} />
-            </div>
-          </main>
-        </div>
+          </div>
+        </footer>
       </div>
-      <footer className={styles.footer}>
-        <div className={styles.footerContainer}>
-          <div className={styles.madeBy}>
-            <PSPDFKit className={styles.logo} />
-            Made by&nbsp;<a href="">PSPDFKit</a>
-          </div>
-          <div className={styles.dependencies}>
-            <div>
-              <div>Code on</div>
-              <a
-                href="https://github.com/PSPDFKit-labs/browserslist.dev"
-                target="_blank"
-              >
-                Github
-              </a>
-            </div>
-
-            <div>
-              <div>Functionality provided by</div>
-              <a
-                href="https://github.com/browserslist/browserslist"
-                target="_blank"
-              >
-                browserslist {browserslistVersion}
-              </a>
-            </div>
-
-            <div>
-              <div>Data provided by</div>
-              <a href="https://github.com/ben-eb/caniuse-lite" target="_blank">
-                caniuse-db {canIUse}
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </>
   );
 }
 

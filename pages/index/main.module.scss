@@ -23,12 +23,6 @@
   @include respond-to(below-medium) {
     width: 100%;
   }
-}
-
-.containerWrapper {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
 
   @include respond-to(small) {
     padding: 0 58px;
@@ -39,6 +33,12 @@
   @include respond-to(xxsmall) {
     padding: 0 10px;
   }
+}
+
+.containerWrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 .header {
@@ -181,9 +181,14 @@
 
 .queryComposition {
   @include smallTextStrong();
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
+
+  & > span {
+    display: inline-block;
+    margin-left: 8px;
+  }
 
   @include respond-to(below-medium) {
     & > span {
@@ -200,7 +205,11 @@
   margin-top: 79px;
 
   @include respond-to(below-medium) {
-    margin-top: 35px;
+    margin-top: 0;
+
+    & h3 {
+      margin-top: 48px;
+    }
   }
 }
 
@@ -355,7 +364,7 @@
 
 .dottedFloor {
   position: absolute;
-  transform: translateY(-50%) translateX(-36%);
+  transform: translateY(-53%) translateX(-35.8%);
   left: 0;
   z-index: 0;
 }
@@ -434,12 +443,12 @@
 
     & > div > div {
       display: inline-block;
+      margin-right: 5px;
     }
   }
 }
 
 .horProgressWrapper {
-  @extend .container;
   height: 24px;
   width: 100%;
   background-color: #190d94;
@@ -467,4 +476,12 @@
     top: 0;
     padding: 4px 8px;
   }
+}
+
+.hide {
+  display: none;
+}
+
+.progressContainer {
+  @extend .container;
 }
