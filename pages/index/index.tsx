@@ -224,13 +224,13 @@ export default function Home({ savedData }) {
 
           <section key="progress" className={styles.progressContainer}>
             <div className={styles.horProgressWrapper}>
-              <div
+              <animated.div
                 style={{
                   width: animatedCoverage.coverage.interpolate(
                     (x) => `${Math.trunc(x)}%`
                   ),
                 }}
-              ></div>
+              ></animated.div>
               <span>Overall Browser Coverage: {coverage}%</span>
             </div>
           </section>
