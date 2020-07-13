@@ -485,3 +485,28 @@
 .progressContainer {
   @extend .container;
 }
+
+.tooltip {
+  position: absolute;
+  display: inline-block;
+  border-radius: 8px;
+  left: -70px;
+  top: -56px;
+}
+
+.tooltiptext {
+  width: 163px;
+  color: #fff;
+  text-align: center;
+  padding: 16px 0 16px 7px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover > span {
+  visibility: visible;
+}

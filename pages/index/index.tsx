@@ -9,6 +9,7 @@ import PSPDFKit from "@assets/svgs/pspdfkit.svg";
 import Error from "@assets/svgs/error.svg";
 import DottedFloor from "@assets/svgs/dotted-floor.svg";
 import Arrow from "@assets/svgs/arrow.svg";
+import ArrowDown from "@assets/svgs/arrow-down.svg";
 import { useSpring, animated } from "react-spring";
 import { CoverageBar } from "@components/CoverageBar/CoverageBar";
 import groupBy from "just-group-by";
@@ -132,6 +133,7 @@ export default function Home({ savedData }) {
     from: {
       coverage: lastCoverage.current,
     },
+    config: { duration: 200 },
     onRest() {
       lastCoverage.current = coverage;
     },
@@ -189,7 +191,17 @@ export default function Home({ savedData }) {
                     value={config}
                     onChange={(event) => setConfig(event.target.value)}
                   />
-                  {error && <Error className={styles.errorIcon} />}
+                  {error && (
+                    <div className={styles.errorIcon}>
+                      <Error />
+                      <div className={styles.tooltip}>
+                        <span className={styles.tooltiptext}>
+                          Invalid Configuration
+                        </span>
+                        <ArrowDown />
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <a
