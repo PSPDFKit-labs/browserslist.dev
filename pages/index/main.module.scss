@@ -494,6 +494,15 @@
   top: -56px;
 }
 
+.stickyTooltip {
+  top: 30px;
+
+  svg {
+    transform: rotate(180deg);
+    margin-top: -8px;
+  }
+}
+
 .tooltiptext {
   width: 163px;
   color: #fff;

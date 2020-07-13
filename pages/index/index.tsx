@@ -194,7 +194,11 @@ export default function Home({ savedData }) {
                   {error && (
                     <div className={styles.errorIcon}>
                       <Error />
-                      <div className={styles.tooltip}>
+                      <div
+                        className={cn(styles.tooltip, {
+                          [styles.stickyTooltip]: sticky,
+                        })}
+                      >
                         <span className={styles.tooltiptext}>
                           Invalid Configuration
                         </span>
