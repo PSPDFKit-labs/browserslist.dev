@@ -31,7 +31,7 @@ function getConfigFromQuery() {
     }
   }
 
-  return "last 2 version";
+  return "last 2 versions";
 }
 
 export default function Home({ savedData }) {
