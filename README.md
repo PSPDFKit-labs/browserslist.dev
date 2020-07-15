@@ -1,6 +1,6 @@
-# Browserslist
+# browserslist.dev
 
-> A page to display compatible browsers from browserslist string.
+> A website to display compatible browsers from browserslist string.
 
 ## Predefined list
 
