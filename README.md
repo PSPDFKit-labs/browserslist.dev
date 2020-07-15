@@ -25,6 +25,10 @@ You can see a sample JSON file [here](data/pspdfkit/2020.4.0.json).
 
 PS: please keep in mind that even though the browserlist will be used from the JSON you provided, the browser usage data will always be latest.
 
+## Bundling
+
+All the data present in the JSON files is present in the props of the main React Component. This is possible because of the SSG capabilities of Next.js.
+
 ## Development
 
 - Clone the repo
