@@ -11,9 +11,5 @@ if (typeof window !== "undefined") {
 
 // This default export is required in a new `pages/_app.js` file.
 export default function MyApp({ Component, pageProps }) {
-  useEffect(() => {
-    ReactGA.pageview(window.location.pathname + window.location.search);
-  }, []);
-
   return <Component {...pageProps} />;
 }
