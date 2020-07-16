@@ -39,7 +39,14 @@ export default function Home({ savedData }) {
     if (typeof window !== "undefined") {
       const query = new URLSearchParams(window.location.search);
       const ref = query.get("ref");
-      const version = query.get("version");
+      let version = query.get("version");
+
+      if (ref === "pspdfkit") {
+        const ver = version.split(".");
+        if (ver.length === 2) ver.push("0");
+        version = ver.join(".");
+      }
+
       if (ref && version) {
         return savedData[`${ref}/${version}.json`];
       }
@@ -329,7 +336,10 @@ export default function Home({ savedData }) {
           <div className={styles.footerContainer}>
             <div className={styles.madeBy}>
               <PSPDFKit className={styles.logo} />
-              Made by&nbsp;<a href="">PSPDFKit</a>
+              Made by&nbsp;
+              <a href="https://pspdfkit.com" target="_blank">
+                PSPDFKit
+              </a>
             </div>
             <div className={styles.dependencies}>
               <div>
