@@ -162,6 +162,9 @@
     @include respond-to(medium) {
       width: 700px;
     }
+    @include respond-to(below-medium) {
+      width: unset;
+    }
 
     &:focus {
       border-color: #5e5ceb;
