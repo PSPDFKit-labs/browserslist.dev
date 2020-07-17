@@ -80,6 +80,7 @@
 .description {
   color: #ffffff;
   @include mediumText();
+  line-height: 21px;
 }
 
 .hr {
