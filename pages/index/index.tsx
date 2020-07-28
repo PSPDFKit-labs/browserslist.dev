@@ -379,8 +379,13 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
 }
 
 export async function getServerSideProps({ query }) {
-  const config = atob(query.q);
-  const initialBrowsers = browserslist(config);
+  let initialBrowsers;
+  try {
+    const config = atob(query.q);
+    initialBrowsers = browserslist(config);
+  } catch (e) {
+    initialBrowsers = browserslist("last 2 versions");
+  }
 
   const files = await globby("*/*.json", {
     cwd: path.resolve("./", "data"),
