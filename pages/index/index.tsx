@@ -35,24 +35,20 @@ function getConfigFromQuery() {
   return "last 2 versions";
 }
 
-export default function Home({ savedData, initialBrowsers }) {
+export default function Home({ savedData, initialBrowsers, searchQuery }) {
   const preSavedData = useMemo(() => {
-    if (typeof window !== "undefined") {
-      const query = new URLSearchParams(window.location.search);
-      const ref = query.get("ref");
-      let version = query.get("version");
+    let { ref, version } = searchQuery;
 
-      if (ref === "pspdfkit") {
-        const ver = version.split(".");
-        if (ver.length === 2) ver.push("0");
-        version = ver.join(".");
-      }
-
-      if (ref && version) {
-        return savedData[`${ref}/${version}.json`];
-      }
+    if (ref === "pspdfkit") {
+      const ver = version.split(".");
+      if (ver.length === 2) ver.push("0");
+      version = ver.join(".");
     }
-  }, [savedData]);
+
+    if (ref && version) {
+      return savedData[`${ref}/${version}.json`];
+    }
+  }, [savedData, searchQuery]);
 
   const [config, setConfig] = useState<string>(
     preSavedData?.config || getConfigFromQuery()
@@ -404,6 +400,7 @@ export async function getServerSideProps({ query }) {
     props: {
       savedData,
       initialBrowsers,
+      searchQuery: query,
     },
   };
 }
