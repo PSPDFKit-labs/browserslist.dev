@@ -226,18 +226,20 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
             </div>
           )}
 
-          <section key="progress" className={styles.progressContainer}>
-            <div className={styles.horProgressWrapper}>
-              <animated.div
-                style={{
-                  width: animatedCoverage.coverage.interpolate(
-                    (x) => `${Math.trunc(x)}%`
-                  ),
-                }}
-              ></animated.div>
-              <span>Overall Browser Coverage: {coverage}%</span>
-            </div>
-          </section>
+          {coverage && (
+            <section key="progress" className={styles.progressContainer}>
+              <div className={styles.horProgressWrapper}>
+                <animated.div
+                  style={{
+                    width: animatedCoverage.coverage.interpolate(
+                      (x) => `${Math.trunc(x)}%`
+                    ),
+                  }}
+                ></animated.div>
+                <span>Overall Browser Coverage: {coverage}%</span>
+              </div>
+            </section>
+          )}
 
           <div className={styles.container}>
             <main className={styles.main}>
@@ -267,7 +269,9 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
                             <div key={version} className={styles.version}>
                               <span>{getVersion(version)}</span>
                               <span className={styles.usage}>
-                                {usage[version].toFixed(3)}%
+                                {typeof usage[version] === "number"
+                                  ? `${usage[version].toFixed(3)}%`
+                                  : "N/A"}
                               </span>
                             </div>
                           ))}
@@ -301,7 +305,9 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
                             <div key={version} className={styles.version}>
                               <span>{getVersion(version)}</span>
                               <span className={styles.usage}>
-                                {usage[version].toFixed(3)}%
+                                {typeof usage[version] === "number"
+                                  ? `${usage[version].toFixed(3)}%`
+                                  : "N/A"}
                               </span>
                             </div>
                           ))}

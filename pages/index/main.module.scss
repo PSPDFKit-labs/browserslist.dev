@@ -12,7 +12,6 @@
   width: 100%;
   margin: 0 auto;
   flex-direction: column;
-  flex: 1;
 
   @include respond-to(large) {
     max-width: 1224px;
