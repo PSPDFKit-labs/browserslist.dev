@@ -20,6 +20,7 @@ import globby from "globby";
 import path from "path";
 import Head from "next/head";
 import cn from "classnames";
+import atob from "atob";
 
 const usage = browserslist.usage.global;
 
@@ -34,7 +35,7 @@ function getConfigFromQuery() {
   return "last 2 versions";
 }
 
-export default function Home({ savedData }) {
+export default function Home({ savedData, initialBrowsers }) {
   const preSavedData = useMemo(() => {
     if (typeof window !== "undefined") {
       const query = new URLSearchParams(window.location.search);
@@ -57,7 +58,7 @@ export default function Home({ savedData }) {
     preSavedData?.config || getConfigFromQuery()
   );
   const [supportedBrowsers, setSupportedBrowsers] = useState<string[]>(
-    preSavedData?.supportedBrowsers || []
+    preSavedData?.supportedBrowsers || initialBrowsers
   );
   const [error, setError] = useState<string>("");
   const [sticky, setSticky] = useState<boolean>();
@@ -246,7 +247,9 @@ export default function Home({ savedData }) {
             <main className={styles.main}>
               <div className={styles.results}>
                 <div>
-                  <h3>Desktop</h3>
+                  {!!Object.keys(groupedBrowsers.desktop)?.length && (
+                    <h3>Desktop</h3>
+                  )}
                   {Object.keys(groupedBrowsers.desktop).map((key) => {
                     const versions = groupedBrowsers.desktop[key];
 
@@ -278,7 +281,9 @@ export default function Home({ savedData }) {
                   })}
                 </div>
                 <div>
-                  <h3>Mobile</h3>
+                  {!!Object.keys(groupedBrowsers.mobile)?.length && (
+                    <h3>Mobile</h3>
+                  )}
                   {Object.keys(groupedBrowsers.mobile).map((key) => {
                     const versions = groupedBrowsers.mobile[key];
 
@@ -377,7 +382,10 @@ export default function Home({ savedData }) {
   );
 }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps({ query }) {
+  const config = atob(query.q);
+  const initialBrowsers = browserslist(config);
+
   const files = await globby("*/*.json", {
     cwd: path.resolve("./", "data"),
   });
@@ -395,6 +403,7 @@ export async function getStaticProps(context) {
   return {
     props: {
       savedData,
+      initialBrowsers,
     },
   };
 }
