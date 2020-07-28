@@ -254,12 +254,11 @@ export default function Home({ savedData }) {
                       <div key={key} className={styles.list}>
                         <div className={styles.listLeft}>
                           <div
-                            className={styles.browserIcon}
-                            style={{
-                              backgroundImage: `url(/browser-logo/${getIconName(
-                                key
-                              )}.svg)`,
-                            }}
+                            className={cn(
+                              styles.browserIcon,
+                              "icon",
+                              `icon-${getIconName(key)}`
+                            )}
                           />
                           {getName(key)}
                         </div>
@@ -287,12 +286,11 @@ export default function Home({ savedData }) {
                       <div key={key} className={styles.list}>
                         <div className={styles.listLeft}>
                           <div
-                            className={styles.browserIcon}
-                            style={{
-                              backgroundImage: `url(/browser-logo/${getIconName(
-                                key
-                              )}.svg)`,
-                            }}
+                            className={cn(
+                              styles.browserIcon,
+                              "icon",
+                              `icon-${getIconName(key)}`
+                            )}
                           />
                           {getName(key)}
                         </div>
