@@ -28,6 +28,7 @@ export default function MyApp({ Component, pageProps }) {
           async
           src={`https://www.googletagmanager.com/gtag/js?id=${ID}`}
         />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
       </Head>
       <Component {...pageProps} />
     </>
