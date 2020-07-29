@@ -21,6 +21,7 @@ import path from "path";
 import Head from "next/head";
 import cn from "classnames";
 import atob from "atob";
+import ReactTooltip from "react-tooltip";
 
 const usage = browserslist.usage.global;
 
@@ -159,6 +160,7 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
         />
       </Head>
       <div className={styles.wrapper}>
+        <ReactTooltip effect="solid" backgroundColor="#4636e3" />
         <div className={styles.containerWrapper}>
           <div className={styles.container} ref={headerRef}>
             <header className={styles.header}>
@@ -269,10 +271,12 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
                           {versions.map((version) => (
                             <div key={version} className={styles.version}>
                               <span>{getVersion(version)}</span>
-                              <span className={styles.usage}>
-                                {typeof usage[version] === "number"
-                                  ? `${usage[version].toFixed(3)}%`
-                                  : "N/A"}
+                              <span
+                                data-tip={getTooltipData(version)}
+                                data-tip-disable={!usage[version]}
+                                className={styles.usage}
+                              >
+                                {getUsage(version)}
                               </span>
                             </div>
                           ))}
@@ -305,10 +309,12 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
                           {versions.map((version) => (
                             <div key={version} className={styles.version}>
                               <span>{getVersion(version)}</span>
-                              <span className={styles.usage}>
-                                {typeof usage[version] === "number"
-                                  ? `${usage[version].toFixed(3)}%`
-                                  : "N/A"}
+                              <span
+                                data-tip={getTooltipData(version)}
+                                data-tip-disable={!usage[version]}
+                                className={styles.usage}
+                              >
+                                {getUsage(version)}
                               </span>
                             </div>
                           ))}
@@ -415,4 +421,16 @@ export async function getServerSideProps({ query }) {
       searchQuery: query,
     },
   };
+}
+
+function getUsage(version) {
+  if (usage[version]?.toString(10) === "0") return "0%";
+
+  return typeof usage[version] === "number"
+    ? `${usage[version].toFixed(3)}%`
+    : "N/A";
+}
+
+function getTooltipData(version) {
+  return typeof usage[version] === "number" ? `${usage[version]}%` : "N/A";
 }
