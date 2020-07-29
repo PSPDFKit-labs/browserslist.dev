@@ -80,6 +80,7 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
       const config = getConfigFromQuery();
       const browsers = browserslist(config);
       setSupportedBrowsers(browsers);
+      setConfig(config);
     }
 
     router.events.on("routeChangeComplete", handleUrlChange);
