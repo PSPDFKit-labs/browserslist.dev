@@ -152,7 +152,7 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
 
   const disclaimerText =
     preSavedData &&
-    `We supported these browsers on the day this version was released.`;
+    "This is the list of browsers supported on the day this version was released.";
 
   return (
     <>
