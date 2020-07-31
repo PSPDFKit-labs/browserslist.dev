@@ -22,7 +22,7 @@ export default function MyApp({ Component, pageProps }) {
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          gtag('config', ${ID}, { 'anonymize_ip': true});
+          gtag('config', '${ID}', { 'anonymize_ip': true});
           `,
           }}
         ></script>
