@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import Head from "next/head";
 
 const ID = process.env.GA;
+const META_TAG_ID = process.env.META_TAG_ID;
 
 // This default export is required in a new `pages/_app.js` file.
 export default function MyApp({ Component, pageProps }) {
@@ -24,6 +25,7 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
+        <meta name="google-site-verification" content={META_TAG_ID} />
         <script
           async
           src={`https://www.googletagmanager.com/gtag/js?id=${ID}`}
