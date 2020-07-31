@@ -10,6 +10,7 @@ import Error from "@assets/svgs/error.svg";
 import DottedFloor from "@assets/svgs/dotted-floor.svg";
 import Arrow from "@assets/svgs/arrow.svg";
 import ArrowDown from "@assets/svgs/arrow-down.svg";
+import Disclaimer from "@assets/svgs/disclaimer.svg";
 import { useSpring, animated } from "react-spring";
 import { CoverageBar } from "@components/CoverageBar/CoverageBar";
 import groupBy from "just-group-by";
@@ -41,9 +42,9 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
     let { ref, version } = searchQuery;
 
     if (ref === "pspdfkit") {
-      const ver = version.split(".");
-      if (ver.length === 2) ver.push("0");
-      version = ver.join(".");
+      const ver = version?.split(".");
+      if (ver?.length === 2) ver?.push("0");
+      version = ver?.join(".");
     }
 
     if (ref && version) {
@@ -149,6 +150,10 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
     [styles.searchSticky]: sticky,
   });
 
+  const disclaimerText =
+    preSavedData &&
+    `We supported these browsers on the day this version was released.`;
+
   return (
     <>
       <Head>
@@ -229,7 +234,7 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
             </div>
           )}
 
-          {coverage && (
+          {coverage && !preSavedData && (
             <section key="progress" className={styles.progressContainer}>
               <div className={styles.horProgressWrapper}>
                 <animated.div
@@ -242,6 +247,16 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
                 <span>Overall Browser Coverage: {coverage}%</span>
               </div>
             </section>
+          )}
+
+          {preSavedData && (
+            <div className={styles.disclaimer}>
+              <div className={styles.disclaimerInner}>
+                <Disclaimer />
+
+                <p>{disclaimerText}</p>
+              </div>
+            </div>
           )}
 
           <div className={styles.container}>
@@ -269,15 +284,22 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
 
                         <div className={styles.listRight}>
                           {versions.map((version) => (
-                            <div key={version} className={styles.version}>
+                            <div
+                              key={version}
+                              className={cn(styles.version, {
+                                [styles.versionPresaved]: preSavedData,
+                              })}
+                            >
                               <span>{getVersion(version)}</span>
-                              <span
-                                data-tip={getTooltipData(version)}
-                                data-tip-disable={!usage[version]}
-                                className={styles.usage}
-                              >
-                                {getUsage(version)}
-                              </span>
+                              {!preSavedData && (
+                                <span
+                                  data-tip={getTooltipData(version)}
+                                  data-tip-disable={!usage[version]}
+                                  className={styles.usage}
+                                >
+                                  {getUsage(version)}
+                                </span>
+                              )}
                             </div>
                           ))}
                         </div>
@@ -307,15 +329,22 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
 
                         <div className={styles.listRight}>
                           {versions.map((version) => (
-                            <div key={version} className={styles.version}>
+                            <div
+                              key={version}
+                              className={cn(styles.version, {
+                                [styles.versionPresaved]: preSavedData,
+                              })}
+                            >
                               <span>{getVersion(version)}</span>
-                              <span
-                                data-tip={getTooltipData(version)}
-                                data-tip-disable={!usage[version]}
-                                className={styles.usage}
-                              >
-                                {getUsage(version)}
-                              </span>
+                              {!preSavedData && (
+                                <span
+                                  data-tip={getTooltipData(version)}
+                                  data-tip-disable={!usage[version]}
+                                  className={styles.usage}
+                                >
+                                  {getUsage(version)}
+                                </span>
+                              )}
                             </div>
                           ))}
                         </div>
@@ -325,21 +354,39 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
                 </div>
               </div>
               <div className={styles.coverageSidebar}>
-                <div className={styles.coverageCount}>
-                  Overall browser coverage: <br />
-                  <span>
-                    <animated.span>
-                      {animatedCoverage.coverage.interpolate((x) =>
-                        Math.trunc(x)
-                      )}
-                    </animated.span>
-                    %
-                  </span>
-                </div>
-                <div className={styles.bar}>
-                  <CoverageBar value={animatedCoverage.coverage} />
-                </div>
-                <DottedFloor className={styles.dottedFloor} />
+                {preSavedData ? (
+                  <div
+                    className={styles.coverageCount}
+                    style={{
+                      flexDirection: "column",
+                      height: "auto",
+                    }}
+                  >
+                    <Disclaimer />
+
+                    <p>{disclaimerText}</p>
+                  </div>
+                ) : (
+                  <div className={styles.coverageCount}>
+                    Overall browser coverage: <br />
+                    <span>
+                      <animated.span>
+                        {animatedCoverage.coverage.interpolate((x) =>
+                          Math.trunc(x)
+                        )}
+                      </animated.span>
+                      %
+                    </span>
+                  </div>
+                )}
+                {!preSavedData && (
+                  <>
+                    <div className={styles.bar}>
+                      <CoverageBar value={animatedCoverage.coverage} />
+                    </div>
+                    <DottedFloor className={styles.dottedFloor} />
+                  </>
+                )}
               </div>
             </main>
           </div>

@@ -311,6 +311,10 @@
   }
 }
 
+.versionPresaved {
+  flex-direction: row-reverse;
+}
+
 .usage {
   @include smallTextUltraStrong();
 }
@@ -354,6 +358,11 @@
     display: inline-block;
     margin-top: 18px;
     color: rgba(255, 255, 255, 1);
+  }
+
+  p {
+    @include smallText();
+    color: white;
   }
 }
 
@@ -523,3 +532,28 @@
 .tooltip:hover > span {
   visibility: visible;
 }
+
+.disclaimer {
+  @extend .progressContainer;
+  height: auto;
+  display: none;
+
+  @include respond-to(below-medium) {
+    display: block;
+  }
+}
+
+.disclaimerInner {
+  @extend .coverageCount;
+  height: auto;
+  width: 100%;
+  padding: 20px;
+  flex-direction: row;
+  display: flex;
+
+  svg {
+    overflow: initial;
+    margin-right: 10px;
+  }
+}
+
