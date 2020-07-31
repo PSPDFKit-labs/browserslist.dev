@@ -282,7 +282,12 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
                           {getName(key)}
                         </div>
 
-                        <div className={styles.listRight}>
+                        <div
+                          className={styles.listRight}
+                          style={{
+                            width: preSavedData ? 82 : 164,
+                          }}
+                        >
                           {versions.map((version) => (
                             <div
                               key={version}
@@ -327,7 +332,12 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
                           {getName(key)}
                         </div>
 
-                        <div className={styles.listRight}>
+                        <div
+                          className={styles.listRight}
+                          style={{
+                            width: preSavedData ? 82 : 164,
+                          }}
+                        >
                           {versions.map((version) => (
                             <div
                               key={version}
