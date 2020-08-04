@@ -27,6 +27,10 @@ export default function MyApp({ Component, pageProps }) {
           }}
         ></script>
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+        />
       </Head>
       <Component {...pageProps} />
     </>
