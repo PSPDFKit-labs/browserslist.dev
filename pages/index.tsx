@@ -1,6 +1,6 @@
 import browserslist from "browserslist";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import styles from "./main.module.scss";
+import styles from "../styles/main.module.scss";
 import { getIconName, getName, getVersion } from "@constants/browserMap";
 import { useRouter } from "next/router";
 import Search from "@assets/svgs/search.svg";
@@ -14,8 +14,8 @@ import Disclaimer from "@assets/svgs/disclaimer.svg";
 import { useSpring, animated } from "react-spring";
 import { CoverageBar } from "@components/CoverageBar/CoverageBar";
 import groupBy from "just-group-by";
-import { version as browserslistVersion } from "../../node_modules/browserslist/package.json";
-import { version as canIUse } from "../../node_modules/caniuse-lite/package.json";
+import { version as browserslistVersion } from "browserslist/package.json";
+import { version as canIUse } from "caniuse-lite/package.json";
 import fs from "fs";
 import globby from "globby";
 import path from "path";
