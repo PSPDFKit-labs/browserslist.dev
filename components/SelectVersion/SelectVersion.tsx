@@ -9,7 +9,6 @@ const Indicator = () => <DropdownIndicator style={{ marginRight: 10 }} />;
 const customStyle = {
   container: (provided) => ({
     ...provided,
-    outline: "none",
     width: 150,
     cursor: "pointer",
   }),
@@ -17,7 +16,7 @@ const customStyle = {
     ...provided,
     backgroundColor: state.isFocused ? "#1F2F3D" : "#061828",
     border: "2px solid #384653",
-    outline: "none",
+    boxShadow: state.isFocused ? "0 0 0 1px #4636e3" : undefined,
     cursor: "pointer",
     ...(state.menuIsOpen
       ? {

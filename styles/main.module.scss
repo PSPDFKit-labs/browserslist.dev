@@ -81,6 +81,10 @@
   @include mediumText();
   line-height: 21px;
   margin-right: 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  white-space: pre;
 }
 
 .hr {
