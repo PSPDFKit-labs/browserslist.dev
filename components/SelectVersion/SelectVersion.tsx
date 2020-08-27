@@ -2,6 +2,9 @@ import ReactSelect from "react-select";
 import React, { useCallback } from "react";
 import { useRouter } from "next/router";
 import styles from "./SelectVersion.module.scss";
+import DropdownIndicator from "@assets/svgs/select-arrow.svg";
+
+const Indicator = () => <DropdownIndicator style={{ marginRight: 10 }} />;
 
 const customStyle = {
   container: (provided) => ({
@@ -84,6 +87,7 @@ export const SelectVersion: React.FC<IProps> = ({ options, preSavedData }) => {
       classNamePrefix="bl"
       styles={customStyle}
       onChange={handleChange}
+      components={{ DropdownIndicator: Indicator }}
     />
   );
 };
