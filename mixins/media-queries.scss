@@ -14,9 +14,9 @@
     @media only screen and (min-width: $xsmall) and (max-width: $small - 1) { @content; }
   }
   @else if $media == xxsmall {
-    @media only screen and (min-width: $xxsmall) and (max-width: $xsmall - 1) { @content; }
+    @media only screen and (max-width: $xsmall - 1) { @content; }
   }
   @else if $media == below-medium {
-    @media only screen and (min-width: $xxsmall) and (max-width: $medium - 1) { @content; }
+    @media only screen and (max-width: $medium - 1) { @content; }
   }
 }

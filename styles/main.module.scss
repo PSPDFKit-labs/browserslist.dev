@@ -41,9 +41,8 @@
 }
 
 .header {
-  height: 78px;
+  min-height: 78px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
 
   @include respond-to(xsmall) {
@@ -67,6 +66,7 @@
   display: flex;
   align-items: center;
   color: #ffffff;
+  max-height: 78px;
 
   @include respond-to(xsmall) {
     margin: 20px 0;
@@ -80,6 +80,7 @@
   color: #ffffff;
   @include mediumText();
   line-height: 21px;
+  margin-right: 10px;
 }
 
 .hr {
@@ -554,6 +555,31 @@
   svg {
     overflow: initial;
     margin-right: 10px;
+  }
+}
+
+.preSavedDatatitlewrapper {
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+
+  @include respond-to(below-medium) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  @include respond-to(small) {
+    align-items: flex-end;
+  }
+}
+
+.presavedDescription {
+  @include respond-to(below-medium) {
+    margin-right: 0;
+    margin-bottom: 16px;
+  }
+  @include respond-to(small) {
+    margin-top: 30px;
   }
 }
 

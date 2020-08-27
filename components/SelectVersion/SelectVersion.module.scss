@@ -1,0 +1,7 @@
+@import "../../mixins/media-queries";
+
+.container {
+  @include respond-to(small) {
+    margin-bottom: 20px;
+  }
+}

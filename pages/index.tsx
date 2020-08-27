@@ -23,6 +23,7 @@ import Head from "next/head";
 import cn from "classnames";
 import atob from "atob";
 import ReactTooltip from "react-tooltip";
+import { SelectVersion } from "@components/SelectVersion/SelectVersion";
 
 const usage = browserslist.usage.global;
 
@@ -48,7 +49,9 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
     }
 
     if (ref && version) {
-      return savedData[`${ref}/${version}.json`];
+      const x = savedData[`${ref}/${version}.json`];
+      x.version = version;
+      return x;
     }
   }, [savedData, searchQuery]);
 
@@ -133,6 +136,13 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
     };
   }, [supportedBrowsers]);
 
+  useEffect(() => {
+    if (!preSavedData) return;
+    preSavedData.supportedBrowsers &&
+      setSupportedBrowsers(preSavedData.supportedBrowsers);
+    debugger;
+  }, [preSavedData]);
+
   const coverage = Math.round(browserslist.coverage(supportedBrowsers));
 
   const animatedCoverage = useSpring({
@@ -154,6 +164,18 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
     preSavedData &&
     "This is the list of browsers supported on the day this version was released.";
 
+  const options = useMemo(
+    () =>
+      Object.keys(savedData).map((x) => {
+        const label = x.split("/")[1].replace(".json", "");
+        return {
+          label,
+          value: label,
+        };
+      }),
+    [savedData]
+  );
+
   return (
     <>
       <Head>
@@ -172,10 +194,19 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
               <span className={styles.title}>browserslist</span>
 
               {preSavedData?.title ? (
-                <div
-                  className={styles.description}
-                  dangerouslySetInnerHTML={{ __html: preSavedData?.title }}
-                />
+                <div className={styles.preSavedDatatitlewrapper}>
+                  <div
+                    className={cn(
+                      styles.description,
+                      styles.presavedDescription
+                    )}
+                    dangerouslySetInnerHTML={{ __html: preSavedData?.title }}
+                  />
+                  <SelectVersion
+                    options={options}
+                    preSavedData={preSavedData}
+                  />
+                </div>
               ) : (
                 <span className={styles.description}>
                   A page to display compatible browsers from{" "}

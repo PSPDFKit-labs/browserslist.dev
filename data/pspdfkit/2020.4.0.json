@@ -26,8 +26,9 @@
     "last 2 ios_saf versions",
     "edge 18"
   ],
-  "title": "Browsers supported by PSPDFKit for Web 2020.4.0",
+  "title": "Browsers supported by PSPDFKit for Web",
   "browserslist": "4.12.0",
-  "caniuse": "1.0.30001081"
+  "caniuse": "1.0.30001081",
+  "version": "2020.4.0"
 }
 
