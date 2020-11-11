@@ -14,7 +14,7 @@ const customStyle = {
   }),
   control: (provided, state) => ({
     ...provided,
-    backgroundColor: state.isFocused ? "#1F2F3D" : "#061828",
+    backgroundColor: state.isFocused ? "#1f2f3d" : "#061828",
     border: "2px solid #384653",
     boxShadow: state.isFocused ? "0 0 0 1px #4636e3" : undefined,
     cursor: "pointer",
