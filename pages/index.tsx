@@ -98,6 +98,7 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
   useEffect(() => {
     if (preSavedData) return;
     try {
+      console.log(config);
       browserslist(config);
       setError("");
       router.push({
@@ -107,6 +108,7 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
         },
       });
     } catch (e) {
+      console.log(e);
       setError(e.message);
     }
   }, [config, preSavedData]);
@@ -271,7 +273,7 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
                 <animated.div
                   style={{
                     width: animatedCoverage.coverage.interpolate(
-                      (x) => `${Math.trunc(x)}%`
+                      (x) => `${Math.trunc(x as number)}%`
                     ),
                   }}
                 ></animated.div>
@@ -413,7 +415,7 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
                     <span>
                       <animated.span>
                         {animatedCoverage.coverage.interpolate((x) =>
-                          Math.trunc(x)
+                          Math.trunc(x as number)
                         )}
                       </animated.span>
                       %
