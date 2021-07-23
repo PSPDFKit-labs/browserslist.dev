@@ -14,8 +14,8 @@ import Disclaimer from "@assets/svgs/disclaimer.svg";
 import { useSpring, animated } from "react-spring";
 import { CoverageBar } from "@components/CoverageBar/CoverageBar";
 import groupBy from "just-group-by";
-import { version as browserslistVersion } from "browserslist/package.json";
-import { version as canIUse } from "caniuse-lite/package.json";
+import packageBrowserslist from "browserslist/package.json";
+import packageCanIUse from "caniuse-lite/package.json";
 import fs from "fs";
 import globby from "globby";
 import path from "path";
@@ -63,6 +63,7 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
   );
   const [error, setError] = useState<string>("");
   const [sticky, setSticky] = useState<boolean>();
+  const [makeAPICall, setMakeAPICall] = useState(false);
   const router = useRouter();
   const headerRef = useRef(null);
 
@@ -81,9 +82,18 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
   }, []);
 
   useEffect(() => {
-    function handleUrlChange() {
+    async function handleUrlChange() {
       const config = getConfigFromQuery();
-      const browsers = browserslist(config);
+      let browsers;
+      if (makeAPICall) {
+        const res = await fetch(`/api/browsers`, {
+          method: "POST",
+          body: config,
+        });
+        browsers = await res.json();
+      } else {
+        browsers = browserslist(config);
+      }
       setSupportedBrowsers(browsers);
       setConfig(config);
     }
@@ -93,12 +103,11 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
     return () => {
       router.events.off("routeChangeComplete", handleUrlChange);
     };
-  }, []);
+  }, [makeAPICall]);
 
   useEffect(() => {
     if (preSavedData) return;
     try {
-      console.log(config);
       browserslist(config);
       setError("");
       router.push({
@@ -109,7 +118,20 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
       });
     } catch (e) {
       console.log(e);
-      setError(e.message);
+      if (
+        e.message.toLowerCase().includes("in client-side build of browserslist")
+      ) {
+        setMakeAPICall(true);
+        setError("");
+        router.push({
+          pathname: "/",
+          query: {
+            q: btoa(config),
+          },
+        });
+      } else {
+        setError(e.message);
+      }
     }
   }, [config, preSavedData]);
 
@@ -182,10 +204,10 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
     <>
       <Head>
         <title>Browserslist</title>
+        <meta charSet="UTF-8" />
         <meta
-          property="og:title"
+          name="description"
           content="A page to display compatible browsers from browserslist string."
-          key="title"
         />
       </Head>
       <div className={styles.wrapper}>
@@ -292,146 +314,152 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
             </div>
           )}
 
-          <div className={styles.container}>
-            <main className={styles.main}>
-              <div className={styles.results}>
-                <div>
-                  {!!Object.keys(groupedBrowsers.desktop)?.length && (
-                    <h3>Desktop</h3>
-                  )}
-                  {Object.keys(groupedBrowsers.desktop).map((key) => {
-                    const versions = groupedBrowsers.desktop[key];
+          <div
+            style={{
+              overflow: "hidden",
+            }}
+          >
+            <div className={styles.container}>
+              <main className={styles.main}>
+                <div className={styles.results}>
+                  <div>
+                    {!!Object.keys(groupedBrowsers.desktop)?.length && (
+                      <h3>Desktop</h3>
+                    )}
+                    {Object.keys(groupedBrowsers.desktop).map((key) => {
+                      const versions = groupedBrowsers.desktop[key];
 
-                    return (
-                      <div key={key} className={styles.list}>
-                        <div className={styles.listLeft}>
-                          <div
-                            className={cn(
-                              styles.browserIcon,
-                              "icon",
-                              `icon-${getIconName(key)}`
-                            )}
-                          />
-                          {getName(key)}
-                        </div>
-
-                        <div
-                          className={styles.listRight}
-                          style={{
-                            width: preSavedData ? 82 : 164,
-                          }}
-                        >
-                          {versions.map((version) => (
+                      return (
+                        <div key={key} className={styles.list}>
+                          <div className={styles.listLeft}>
                             <div
-                              key={version}
-                              className={cn(styles.version, {
-                                [styles.versionPresaved]: preSavedData,
-                              })}
-                            >
-                              <span>{getVersion(version)}</span>
-                              {!preSavedData && (
-                                <span
-                                  data-tip={getTooltipData(version)}
-                                  data-tip-disable={!usage[version]}
-                                  className={styles.usage}
-                                >
-                                  {getUsage(version)}
-                                </span>
+                              className={cn(
+                                styles.browserIcon,
+                                "icon",
+                                `icon-${getIconName(key)}`
                               )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-                <div>
-                  {!!Object.keys(groupedBrowsers.mobile)?.length && (
-                    <h3>Mobile</h3>
-                  )}
-                  {Object.keys(groupedBrowsers.mobile).map((key) => {
-                    const versions = groupedBrowsers.mobile[key];
+                            />
+                            {getName(key)}
+                          </div>
 
-                    return (
-                      <div key={key} className={styles.list}>
-                        <div className={styles.listLeft}>
                           <div
-                            className={cn(
-                              styles.browserIcon,
-                              "icon",
-                              `icon-${getIconName(key)}`
-                            )}
-                          />
-                          {getName(key)}
+                            className={styles.listRight}
+                            style={{
+                              width: preSavedData ? 82 : 164,
+                            }}
+                          >
+                            {versions.map((version) => (
+                              <div
+                                key={version}
+                                className={cn(styles.version, {
+                                  [styles.versionPresaved]: preSavedData,
+                                })}
+                              >
+                                <span>{getVersion(version)}</span>
+                                {!preSavedData && (
+                                  <span
+                                    data-tip={getTooltipData(version)}
+                                    data-tip-disable={!usage[version]}
+                                    className={styles.usage}
+                                  >
+                                    {getUsage(version)}
+                                  </span>
+                                )}
+                              </div>
+                            ))}
+                          </div>
                         </div>
+                      );
+                    })}
+                  </div>
+                  <div>
+                    {!!Object.keys(groupedBrowsers.mobile)?.length && (
+                      <h3>Mobile</h3>
+                    )}
+                    {Object.keys(groupedBrowsers.mobile).map((key) => {
+                      const versions = groupedBrowsers.mobile[key];
 
-                        <div
-                          className={styles.listRight}
-                          style={{
-                            width: preSavedData ? 82 : 164,
-                          }}
-                        >
-                          {versions.map((version) => (
+                      return (
+                        <div key={key} className={styles.list}>
+                          <div className={styles.listLeft}>
                             <div
-                              key={version}
-                              className={cn(styles.version, {
-                                [styles.versionPresaved]: preSavedData,
-                              })}
-                            >
-                              <span>{getVersion(version)}</span>
-                              {!preSavedData && (
-                                <span
-                                  data-tip={getTooltipData(version)}
-                                  data-tip-disable={!usage[version]}
-                                  className={styles.usage}
-                                >
-                                  {getUsage(version)}
-                                </span>
+                              className={cn(
+                                styles.browserIcon,
+                                "icon",
+                                `icon-${getIconName(key)}`
                               )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-              <div className={styles.coverageSidebar}>
-                {preSavedData ? (
-                  <div
-                    className={styles.coverageCount}
-                    style={{
-                      flexDirection: "column",
-                      height: "auto",
-                    }}
-                  >
-                    <Disclaimer />
+                            />
+                            {getName(key)}
+                          </div>
 
-                    <p>{disclaimerText}</p>
+                          <div
+                            className={styles.listRight}
+                            style={{
+                              width: preSavedData ? 82 : 164,
+                            }}
+                          >
+                            {versions.map((version) => (
+                              <div
+                                key={version}
+                                className={cn(styles.version, {
+                                  [styles.versionPresaved]: preSavedData,
+                                })}
+                              >
+                                <span>{getVersion(version)}</span>
+                                {!preSavedData && (
+                                  <span
+                                    data-tip={getTooltipData(version)}
+                                    data-tip-disable={!usage[version]}
+                                    className={styles.usage}
+                                  >
+                                    {getUsage(version)}
+                                  </span>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                ) : (
-                  <div className={styles.coverageCount}>
-                    Overall browser coverage: <br />
-                    <span>
-                      <animated.span>
-                        {animatedCoverage.coverage.interpolate((x) =>
-                          Math.trunc(x as number)
-                        )}
-                      </animated.span>
-                      %
-                    </span>
-                  </div>
-                )}
-                {!preSavedData && (
-                  <>
-                    <div className={styles.bar}>
-                      <CoverageBar value={animatedCoverage.coverage} />
+                </div>
+                <div className={styles.coverageSidebar}>
+                  {preSavedData ? (
+                    <div
+                      className={styles.coverageCount}
+                      style={{
+                        flexDirection: "column",
+                        height: "auto",
+                      }}
+                    >
+                      <Disclaimer />
+
+                      <p>{disclaimerText}</p>
                     </div>
-                    <DottedFloor className={styles.dottedFloor} />
-                  </>
-                )}
-              </div>
-            </main>
+                  ) : (
+                    <div className={styles.coverageCount}>
+                      Overall browser coverage: <br />
+                      <span>
+                        <animated.span>
+                          {animatedCoverage.coverage.interpolate((x) =>
+                            Math.trunc(x as number)
+                          )}
+                        </animated.span>
+                        %
+                      </span>
+                    </div>
+                  )}
+                  {!preSavedData && (
+                    <>
+                      <div className={styles.bar}>
+                        <CoverageBar value={animatedCoverage.coverage} />
+                      </div>
+                      <DottedFloor className={styles.dottedFloor} />
+                    </>
+                  )}
+                </div>
+              </main>
+            </div>
           </div>
         </div>
         <footer className={styles.footer}>
@@ -460,7 +488,7 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
                   href="https://github.com/browserslist/browserslist"
                   target="_blank"
                 >
-                  browserslist {browserslistVersion}
+                  browserslist {packageBrowserslist.version}
                 </a>
               </div>
 
@@ -470,7 +498,7 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
                   href="https://github.com/ben-eb/caniuse-lite"
                   target="_blank"
                 >
-                  caniuse-db {canIUse}
+                  caniuse-db {packageCanIUse.version}
                 </a>
               </div>
             </div>
