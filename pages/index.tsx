@@ -556,6 +556,6 @@ function getUsage(version, usage) {
 
 function getTooltipData(version, usage) {
   return typeof usage.global[version] === "number"
-    ? `🌐 ${usage.global[version]}%, 🇺🇸 ${usage.US[version]}%`
+    ? `🌐 ${usage.global[version]}%`
     : "N/A";
 }
