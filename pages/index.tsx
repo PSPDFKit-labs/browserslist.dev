@@ -25,8 +25,6 @@ import atob from "atob";
 import ReactTooltip from "react-tooltip";
 import { SelectVersion } from "@components/SelectVersion/SelectVersion";
 
-const usage = browserslist.usage.global;
-
 function getConfigFromQuery() {
   if (typeof window !== "undefined") {
     const query = new URLSearchParams(window.location.search);
@@ -38,7 +36,13 @@ function getConfigFromQuery() {
   return "last 2 versions";
 }
 
-export default function Home({ savedData, initialBrowsers, searchQuery }) {
+export default function Home({
+  savedData,
+  initialBrowsers,
+  searchQuery,
+  usage,
+}) {
+  console.log(usage);
   const preSavedData = useMemo(() => {
     let { ref, version } = searchQuery;
 
@@ -259,18 +263,16 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
                     onChange={(event) => setConfig(event.target.value)}
                   />
                   {error && (
-                    <div className={styles.errorIcon}>
-                      <Error />
-                      <div
-                        className={cn(styles.tooltip, {
-                          [styles.stickyTooltip]: sticky,
-                        })}
-                      >
-                        <span className={styles.tooltiptext}>
-                          Invalid Configuration
-                        </span>
-                        <ArrowDown />
+                    <div
+                      className={cn(styles.tooltip, {
+                        [styles.stickyTooltip]: sticky,
+                      })}
+                    >
+                      <div className={styles.errorIcon}>
+                        <Error />
                       </div>
+
+                      <span className={styles.tooltiptext}>{error}</span>
                     </div>
                   )}
                 </div>
@@ -358,11 +360,11 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
                                 <span>{getVersion(version)}</span>
                                 {!preSavedData && (
                                   <span
-                                    data-tip={getTooltipData(version)}
-                                    data-tip-disable={!usage[version]}
+                                    data-tip={getTooltipData(version, usage)}
+                                    data-tip-disable={!usage.global[version]}
                                     className={styles.usage}
                                   >
-                                    {getUsage(version)}
+                                    {getUsage(version, usage)}
                                   </span>
                                 )}
                               </div>
@@ -408,11 +410,11 @@ export default function Home({ savedData, initialBrowsers, searchQuery }) {
                                 <span>{getVersion(version)}</span>
                                 {!preSavedData && (
                                   <span
-                                    data-tip={getTooltipData(version)}
-                                    data-tip-disable={!usage[version]}
+                                    data-tip={getTooltipData(version, usage)}
+                                    data-tip-disable={!usage.global[version]}
                                     className={styles.usage}
                                   >
-                                    {getUsage(version)}
+                                    {getUsage(version, usage)}
                                   </span>
                                 )}
                               </div>
@@ -537,18 +539,23 @@ export async function getServerSideProps({ query }) {
       savedData,
       initialBrowsers,
       searchQuery: query,
+      usage: browserslist.usage,
     },
   };
 }
 
-function getUsage(version) {
-  if (usage[version]?.toString(10) === "0") return "0%";
+function getUsage(version, usage) {
+  const globalUsage = usage.global;
 
-  return typeof usage[version] === "number"
-    ? `${usage[version].toFixed(3)}%`
+  if (globalUsage[version]?.toString(10) === "0") return "0%";
+
+  return typeof globalUsage[version] === "number"
+    ? `${globalUsage[version].toFixed(3)}%`
     : "N/A";
 }
 
-function getTooltipData(version) {
-  return typeof usage[version] === "number" ? `${usage[version]}%` : "N/A";
+function getTooltipData(version, usage) {
+  return typeof usage.global[version] === "number"
+    ? `🌐 ${usage.global[version]}%, 🇺🇸 ${usage.US[version]}%`
+    : "N/A";
 }
