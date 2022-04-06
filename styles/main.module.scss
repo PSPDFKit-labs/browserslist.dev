@@ -104,6 +104,7 @@
 .search {
   padding: 16px 0;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   position: sticky;
@@ -185,6 +186,10 @@
   position: absolute;
   right: 13px;
   margin-top: 13px;
+
+  &:hover > span {
+    visibility: visible;
+  }
 }
 
 .queryComposition {
@@ -508,34 +513,34 @@
   position: absolute;
   display: inline-block;
   border-radius: 8px;
-  left: -70px;
-  top: -56px;
-}
+  right: 0;
+  top: -10px;
+  transform: translateX(-50%) translateY(10px);
 
-.stickyTooltip {
-  top: 30px;
-
-  svg {
-    transform: rotate(180deg);
-    margin-top: -8px;
+  &:hover > span {
+    display: block;
   }
 }
 
+.stickyTooltip {
+  bottom: -100px;
+}
+
 .tooltiptext {
-  width: 163px;
+  width: 250px;
   color: #fff;
   text-align: center;
-  padding: 16px 0 16px 7px;
+  padding: 16px;
   border-radius: 6px;
   font-size: 14px;
   font-weight: 500;
   position: absolute;
   z-index: 1;
-}
-
-/* Show the tooltip text when you mouse over the tooltip container */
-.tooltip:hover > span {
-  visibility: visible;
+  background-color: black;
+  border: 1px solid rgba(255,255,255,0.2);
+  transform: translateX(-60%);
+  bottom: 0;
+  display: none;
 }
 
 .disclaimer {
@@ -587,3 +592,7 @@
   }
 }
 
+.errorDetails {
+  color: #e75541;
+  text-align: left;
+}
