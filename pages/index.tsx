@@ -42,7 +42,6 @@ export default function Home({
   searchQuery,
   usage,
 }) {
-  console.log(usage);
   const preSavedData = useMemo(() => {
     let { ref, version } = searchQuery;
 
@@ -121,7 +120,6 @@ export default function Home({
         },
       });
     } catch (e) {
-      console.log(e);
       if (
         e.message.toLowerCase().includes("in client-side build of browserslist")
       ) {
