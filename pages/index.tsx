@@ -478,7 +478,7 @@ export default function Home({
                   href="https://github.com/PSPDFKit-labs/browserslist.dev"
                   target="_blank"
                 >
-                  Github
+                  GitHub
                 </a>
               </div>
 
