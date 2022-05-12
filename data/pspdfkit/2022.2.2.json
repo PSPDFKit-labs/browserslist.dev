@@ -1,0 +1,35 @@
+{
+  "supportedBrowsers": [
+    "and_chr 97",
+    "chrome 98",
+    "chrome 97",
+    "edge 98",
+    "edge 97",
+    "edge 18",
+    "firefox 96",
+    "firefox 95",
+    "firefox 91",
+    "firefox 78",
+    "ie 11",
+    "ios_saf 15.2-15.3",
+    "ios_saf 15.0-15.1",
+    "safari 15.2-15.3",
+    "safari 15.1"
+  ],
+  "config": [
+    "Firefox ESR",
+    "IE 11",
+    "edge 18",
+    "last 2 Chrome versions",
+    "last 2 firefox versions",
+    "last 2 edge versions",
+    "last 2 safari versions",
+    "last 2 and_chr versions",
+    "last 2 ios_saf versions"
+  ],
+  "title": "Browsers supported by PSPDFKit for Web",
+  "browserslist": "4.19.1",
+  "caniuse": "1.0.30001296",
+  "version": "2022.2.2"
+}
+
