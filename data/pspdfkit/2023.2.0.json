@@ -1,0 +1,22 @@
+{
+  "supportedBrowsers": [
+    "and_chr 108",
+    "chrome 109",
+    "chrome 108",
+    "edge 108",
+    "edge 107",
+    "firefox 108",
+    "firefox 107",
+    "firefox 91",
+    "firefox 78",
+    "ios_saf 16.2",
+    "ios_saf 16.1",
+    "safari 16.2",
+    "safari 16.1"
+  ],
+  "title": "Browsers supported by PSPDFKit for Web",
+  "browserslist": "4.19.1",
+  "caniuse": "1.0.30001445",
+  "version": "2023.2.0"
+}
+
