@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import browserslist from "browserslist/node";
+import browserslist from "browserslist";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
