@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import browserslist from "browserslist";
+import * as lite from "caniuse-lite";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
