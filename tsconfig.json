@@ -19,10 +19,17 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@constants/*": ["./constants/*"],
-      "@assets/*": ["./assets/*"],
-      "@components/*": ["./components/*"]
-    }
+      "@constants/*": [
+        "./constants/*"
+      ],
+      "@assets/*": [
+        "./assets/*"
+      ],
+      "@components/*": [
+        "./components/*"
+      ]
+    },
+    "incremental": true
   },
   "exclude": [
     "node_modules"
