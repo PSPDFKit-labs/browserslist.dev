@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "update-db": "npx browserslist@latest --update-db"
+    "update-db": "npx update-browserslist-db@latest"
   },
   "dependencies": {
     "atob": "^2.1.2",
