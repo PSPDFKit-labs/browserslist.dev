@@ -6,11 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "update-db": "npx browserslist@latest --update-db"
+    "update-db": "npx update-browserslist-db@latest"
   },
   "dependencies": {
     "atob": "^2.1.2",
-    "browserslist": "^4.21.7",
+    "browserslist": "^4.22.1",
     "classnames": "^2.3.1",
     "globby": "^11.0.1",
     "just-group-by": "^1.1.1",
