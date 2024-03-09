@@ -202,6 +202,54 @@ export default function Home({
     [savedData]
   );
 
+  const [featureQuery, setFeatureQuery] = useState("");
+  const [featureQueryResponse, setFeatureQueryResponse] = useState([]);
+
+  React.useEffect(() => {
+    (async () => {
+      if (featureQuery) {
+        const featuresData = await fetch(`/api/features`, {
+          method: "POST",
+          body: featureQuery,
+        }).then((res) => res.json());
+
+        setFeatureQueryResponse(featuresData.map((feature) => feature.title));
+
+        if (
+          featuresData.length === 1 &&
+          featuresData[0].title.toLowerCase() === featureQuery.toLowerCase()
+        ) {
+          const queryTokens = Object.entries(featuresData[0].stats).reduce(
+            (acc, [browser, versions]) => {
+              const firstSupportingVersion = Object.entries(versions).find(
+                ([_, support]) => support === "y"
+              )?.[0];
+
+              if (!firstSupportingVersion) {
+                return acc;
+              }
+
+              let extractedFirstSupportingVersion;
+
+              if (firstSupportingVersion.includes("-")) {
+                extractedFirstSupportingVersion =
+                  firstSupportingVersion.split("-")[0];
+              } else {
+                extractedFirstSupportingVersion = firstSupportingVersion;
+              }
+
+              return acc.concat([
+                `${browser} >= ${extractedFirstSupportingVersion}`,
+              ]);
+            },
+            []
+          );
+          setConfig(queryTokens.join(", "));
+        }
+      }
+    })();
+  }, [featureQuery]);
+
   return (
     <>
       <Head>
@@ -258,8 +306,48 @@ export default function Home({
                     className={error && styles.error}
                     type="text"
                     value={config}
-                    onChange={(event) => setConfig(event.target.value)}
+                    onChange={(event) => {
+                      setFeatureQuery("");
+                      setFeatureQueryResponse([]);
+                      setConfig(event.target.value);
+                    }}
+                    placeholder="Browser query..."
                   />
+                  {error && (
+                    <div
+                      className={cn(styles.tooltip, {
+                        [styles.stickyTooltip]: sticky,
+                      })}
+                    >
+                      <div className={styles.errorIcon}>
+                        <Error />
+                      </div>
+
+                      <span className={styles.tooltiptext}>{error}</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className={styles.searchWrapper}>
+                  <Search className={styles.searchIcon} />
+                  <input
+                    className={error && styles.error}
+                    type="text"
+                    value={featureQuery}
+                    onChange={(event) => setFeatureQuery(event.target.value)}
+                    placeholder="Query by feature..."
+                    list="features"
+                  />
+                  {featureQueryResponse && (
+                    <datalist id="features">
+                      {featureQueryResponse.map((featureTitle, index) => (
+                        <option
+                          key={`${featureTitle}_${index}`}
+                          value={featureTitle}
+                        />
+                      ))}
+                    </datalist>
+                  )}
                   {error && (
                     <div
                       className={cn(styles.tooltip, {
