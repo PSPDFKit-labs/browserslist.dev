@@ -123,11 +123,14 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
 .searchWrapper {
   position: relative;
   display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
 
   @include respond-to(small) {
     flex: 1;
@@ -160,17 +163,6 @@
     padding: 0 46px;
     display: flex;
     flex: 1;
-    width: 912px;
-
-    @include respond-to(large) {
-      width: 912px;
-    }
-    @include respond-to(medium) {
-      width: 700px;
-    }
-    @include respond-to(below-medium) {
-      width: unset;
-    }
 
     &:focus {
       border-color: #5e5ceb;
