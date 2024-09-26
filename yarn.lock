@@ -1688,9 +1688,9 @@ camelcase@^5.3.1:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
 
-caniuse-lite@^1.0.30001043, caniuse-lite@^1.0.30001406, caniuse-lite@^1.0.30001489:
+caniuse-lite@^1.0.30001043, caniuse-lite@^1.0.30001406, caniuse-lite@^1.0.30001541:
   version "1.0.30001596"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001596.tgz"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001596.tgz#da06b79c3d9c3d9958eb307aa832ac68ead79bee"
   integrity sha512-zpkZ+kEr6We7w63ORkoJ2pOfBwBkY/bJrG/UZ90qNb45Isblu8wzDgevEOrRL1r9dWayHjYiiyCMEXPn4DweGQ==
 
 caw@^2.0.0, caw@^2.0.1:
