@@ -5,7 +5,7 @@ import { getIconName, getName, getVersion } from "@constants/browserMap";
 import { useRouter } from "next/router";
 import Search from "@assets/svgs/search.svg";
 import Info from "@assets/svgs/info.svg";
-import PSPDFKit from "@assets/svgs/pspdfkit.svg";
+import Nutrient from "@assets/svgs/nutrient.svg";
 import Error from "@assets/svgs/error.svg";
 import DottedFloor from "@assets/svgs/dotted-floor.svg";
 import Arrow from "@assets/svgs/arrow.svg";
@@ -465,10 +465,10 @@ export default function Home({
         <footer className={styles.footer}>
           <div className={styles.footerContainer}>
             <div className={styles.madeBy}>
-              <PSPDFKit className={styles.logo} />
+              <Nutrient className={styles.logo} />
               Made by&nbsp;
-              <a href="https://pspdfkit.com" target="_blank">
-                PSPDFKit
+              <a href="https://nutrient.io" target="_blank">
+                Nutrient
               </a>
             </div>
             <div className={styles.dependencies}>

@@ -42,7 +42,7 @@
     "safari 15.5",
     "safari 15.4"
   ],
-  "title": "Browsers supported by PSPDFKit for Web",
+  "title": "Browsers supported by Nutrient Web SDK",
   "browserslist": "4.19.1",
   "caniuse": "1.0.30001638",
   "version": "2024.5.2"
