@@ -25,7 +25,7 @@
     "last 2 and_chr versions",
     "last 2 ios_saf versions"
   ],
-  "title": "Browsers supported by PSPDFKit for Web",
+  "title": "Browsers supported by Nutrient Web SDK",
   "browserslist": "4.19.1",
   "caniuse": "1.0.30001349",
   "version": "2022.5.0"

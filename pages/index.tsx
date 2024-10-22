@@ -467,8 +467,8 @@ export default function Home({
             <div className={styles.madeBy}>
               <PSPDFKit className={styles.logo} />
               Made by&nbsp;
-              <a href="https://pspdfkit.com" target="_blank">
-                PSPDFKit
+              <a href="https://nutrient.io" target="_blank">
+                Nutrient
               </a>
             </div>
             <div className={styles.dependencies}>
